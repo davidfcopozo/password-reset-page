@@ -4,6 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { useLocation } from "react-router-dom";
 import { auth } from "../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
+import ToastNotification from "../components/ToastNotification";
 
 const useQuery = () => {
   const location = useLocation();
@@ -39,6 +40,17 @@ export const ForgotPassword = () => {
   }
   return (
     <>
+      {error && (
+        <ToastNotification
+          title="¡Algo salió mal!"
+          body={message}
+          variant="Danger"
+        />
+      )}
+
+      {message && (
+        <ToastNotification title="¡Excelente!" body={message} variant="Light" />
+      )}
       <Card>
         <Card.Body>
           <img
@@ -47,17 +59,6 @@ export const ForgotPassword = () => {
             className="mt-0 pt-0"
           />
           <h2 className="text-center mb-4">Cambia tu contraseña</h2>
-          {error && (
-            <Alert variant="danger" className="text-center">
-              {error}
-            </Alert>
-          )}
-          {message && (
-            <Alert variant="success" className="text-center">
-              {message}
-            </Alert>
-          )}
-
           <Form onSubmit={handleSubmit}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
